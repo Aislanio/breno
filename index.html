@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>O Arsenal do Editor Pro | Breno Rafael</title>
     
+    <link rel="icon" type="image/png" href="video/logo.png">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -253,31 +254,77 @@
     </section>
 
     <!-- Video Preview Section -->
-    <section id="preview" class="py-12 relative">
-        <div class="max-w-5xl mx-auto px-6 reveal-on-scroll">
-            <div class="relative aspect-video rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(168,85,247,0.15)] border border-white/10 group hover-trigger bg-black">
-                <!-- Thumbnail Placeholder -->
-                <img src="https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-50 group-hover:opacity-30 transition-opacity" alt="Preview">
+   <section id="preview" class="py-12 relative">
+    <div class="max-w-5xl mx-auto px-6 reveal-on-scroll">
+        
+        <div id="video-container" 
+             class="relative aspect-video rounded-2xl overflow-hidden shadow-[0_0_50px_rgba(168,85,247,0.15)] border border-white/10 group bg-black select-none">
+            
+            <video id="main-video" 
+                   class="absolute inset-0 w-full h-full object-cover"
+                   muted 
+                   loop 
+                   playsinline>
+                <source src="video/manda.MOV" type="video/mp4">
+            </video>
+
+            <div id="video-overlay" class="absolute inset-0 z-20 flex items-center justify-center bg-black/40 cursor-pointer transition-all duration-500">
+                <img src="video/capa.jpeg" 
+                     class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay" 
+                     alt="Capa do Vídeo">
                 
-                <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="text-center group-hover:scale-110 transition-transform duration-300">
-                        <div class="w-24 h-24 bg-white/10 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4 border border-white/20 pl-2">
-                            <i data-lucide="play" class="w-10 h-10 text-white fill-white"></i>
-                        </div>
-                        <span class="text-white font-bold tracking-widest uppercase text-sm">Ver o que tem dentro</span>
+                <div class="relative z-30 text-center group-hover:scale-110 transition-transform duration-300">
+                    <div class="w-20 h-20 bg-purple-600/20 backdrop-blur-md rounded-full flex items-center justify-center mx-auto mb-4 border border-purple-500/50 pl-1 shadow-[0_0_30px_rgba(168,85,247,0.6)] animate-pulse">
+                        <i data-lucide="play" class="w-8 h-8 text-white fill-white"></i>
                     </div>
+                    <span class="text-white font-bold tracking-widest uppercase text-xs drop-shadow-lg">Ver Preview</span>
                 </div>
             </div>
-            <div class="flex justify-between items-center mt-4 text-neutral-500 text-sm font-mono">
-                <span>COMPATÍVEL COM:</span>
-                <div class="flex gap-4">
-                    <span class="flex items-center gap-1 text-white"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> CAPCUT</span>
-                    <span class="flex items-center gap-1 text-white"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> PREMIERE</span>
-                    <span class="flex items-center gap-1 text-white"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> DAVINCI</span>
+
+            <div id="custom-controls" 
+                 class="absolute bottom-0 left-0 w-full px-6 py-4 bg-gradient-to-t from-black/90 via-black/60 to-transparent z-10 opacity-0 transition-opacity duration-300 flex flex-col gap-2 pointer-events-none">
+                
+                <div class="relative w-full h-1 bg-white/20 rounded-full cursor-pointer group/progress hover:h-2 transition-all duration-300" id="progress-bar">
+                    <div id="progress-fill" class="absolute top-0 left-0 h-full bg-purple-600 rounded-full w-0 shadow-[0_0_10px_#9333ea]"></div>
+                    <div id="progress-scrubber" class="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3 h-3 bg-white rounded-full opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-lg left-0"></div>
                 </div>
+
+                <div class="flex items-center justify-between mt-1">
+                    <div class="flex items-center gap-4">
+                        <button id="btn-play-pause" class="text-white hover:text-purple-400 transition-colors focus:outline-none">
+                            <i data-lucide="play" class="w-6 h-6 fill-current"></i>
+                        </button>
+                        
+                        <div class="group/volume flex items-center gap-2">
+                            <button id="btn-mute" class="text-white hover:text-purple-400 transition-colors focus:outline-none">
+                                <i data-lucide="volume-2" class="w-5 h-5"></i>
+                            </button>
+                            <input type="range" min="0" max="1" step="0.1" value="1" id="volume-slider" 
+                                   class="w-0 overflow-hidden group-hover/volume:w-20 transition-all duration-300 h-1 bg-white/20 rounded-lg appearance-none cursor-pointer accent-purple-500">
+                        </div>
+
+                        <span class="text-xs font-mono text-neutral-400 tracking-wider">
+                            <span id="current-time">00:00</span> / <span id="total-duration">00:00</span>
+                        </span>
+                    </div>
+
+                    <button id="btn-fullscreen" class="text-white hover:text-purple-400 transition-colors focus:outline-none">
+                        <i data-lucide="maximize" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="flex justify-between items-center mt-4 text-neutral-500 text-sm font-mono opacity-60">
+            <span>PLAYER NATIVO 4K</span>
+            <div class="flex gap-4">
+                <span class="flex items-center gap-1 text-white"><i data-lucide="check" class="w-3 h-3 text-purple-500"></i> CAPCUT</span>
+                <span class="flex items-center gap-1 text-white"><i data-lucide="check" class="w-3 h-3 text-purple-500"></i> PREMIERE</span>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <!-- Pack Contents (Grid) -->
     <section id="pack-contents" class="py-24 relative bg-neutral-900/30">
@@ -352,15 +399,6 @@
                     <p class="text-neutral-400 text-sm">Fundos animados em loop 4K perfeitos para VSLs e cenários virtuais.</p>
                 </div>
 
-                <!-- Item 8 (BONUS) -->
-                <div class="spotlight-card relative bg-gradient-to-br from-purple-900/40 to-black border border-purple-500/50 rounded-xl p-8 hover-trigger reveal-on-scroll" style="transition-delay: 400ms">
-                    <div class="absolute top-4 right-4 bg-purple-500 text-white text-[10px] font-bold px-2 py-1 rounded">BÔNUS</div>
-                    <div class="w-12 h-12 bg-white/10 rounded-lg flex items-center justify-center mb-4 text-white">
-                        <i data-lucide="video" class="w-6 h-6"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mb-2">Mini-Curso: O Flow</h3>
-                    <p class="text-neutral-300 text-sm">Aula exclusiva mostrando meu workflow de edição usando este pack.</p>
-                </div>
             </div>
         </div>
     </section>
@@ -451,10 +489,6 @@
                         <div class="bg-green-500/20 p-1 rounded-full"><i data-lucide="check" class="w-4 h-4 text-green-500"></i></div>
                         <span>LUTs, Texturas & Overlays</span>
                     </div>
-                    <div class="flex items-center gap-3 text-white font-bold">
-                        <div class="bg-purple-500/20 p-1 rounded-full"><i data-lucide="star" class="w-4 h-4 text-purple-500"></i></div>
-                        <span>BÔNUS: Aula de Edição "O Flow"</span>
-                    </div>
                 </div>
 
                 <a href="https://pay.kiwify.com.br/B8KerT2" class="w-full max-w-md bg-green-500 text-black font-black text-xl py-5 rounded-xl hover:bg-green-400 transition-all duration-300 transform hover:scale-[1.02] shadow-[0_0_30px_rgba(34,197,94,0.4)] btn-pulse hover-trigger">
@@ -521,37 +555,148 @@
     </footer>
 
     <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
-        document.getElementById('year').textContent = new Date().getFullYear();
+    // Inicialização básica
+    lucide.createIcons();
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-        // Custom Cursor
+    // --- LÓGICA DO PLAYER ESTILIZADO (SIDEBAR/CONTROL BAR) ---
+    document.addEventListener("DOMContentLoaded", function() {
+        const container = document.getElementById('video-container');
+        const video = document.getElementById('main-video');
+        const overlay = document.getElementById('video-overlay');
+        const controls = document.getElementById('custom-controls');
+        
+        // Elementos de Controle
+        const btnPlayPause = document.getElementById('btn-play-pause');
+        const iconPlayPause = btnPlayPause.querySelector('i'); // Para trocar o ícone
+        const btnMute = document.getElementById('btn-mute');
+        const volumeSlider = document.getElementById('volume-slider');
+        const btnFullscreen = document.getElementById('btn-fullscreen');
+        const progressBar = document.getElementById('progress-bar');
+        const progressFill = document.getElementById('progress-fill');
+        const progressScrubber = document.getElementById('progress-scrubber');
+        const timeCurrent = document.getElementById('current-time');
+        const timeTotal = document.getElementById('total-duration');
+
+        let isVideoActive = false;
+
+        // Formata tempo (segundos -> MM:SS)
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+        }
+
+        // 1. INICIAR VÍDEO (Ao clicar na capa)
+        overlay.addEventListener('click', function() {
+            overlay.style.opacity = '0';
+            setTimeout(() => overlay.style.display = 'none', 500); // Remove do DOM após fade
+            
+            video.muted = false; // Ativa som
+            video.currentTime = 0;
+            video.play();
+            isVideoActive = true;
+            
+            // Habilita interações na barra de controle
+            controls.classList.remove('pointer-events-none');
+            // Atualiza ícone para Pause
+            updatePlayPauseIcon(true);
+        });
+
+        // 2. MOSTRAR/OCULTAR CONTROLES (Hover)
+        container.addEventListener('mouseenter', () => {
+            if(isVideoActive) controls.style.opacity = '1';
+        });
+        container.addEventListener('mouseleave', () => {
+            if(isVideoActive && !video.paused) controls.style.opacity = '0';
+        });
+
+        // 3. PLAY/PAUSE
+        function togglePlay() {
+            if (video.paused || video.ended) {
+                video.play();
+                updatePlayPauseIcon(true);
+            } else {
+                video.pause();
+                updatePlayPauseIcon(false);
+                controls.style.opacity = '1'; // Mantém controles visíveis se pausado
+            }
+        }
+
+        function updatePlayPauseIcon(isPlaying) {
+            // Remove ícone antigo e cria novo Lucide
+            iconPlayPause.remove();
+            const newIcon = document.createElement('i');
+            newIcon.setAttribute('data-lucide', isPlaying ? 'pause' : 'play');
+            newIcon.classList.add('w-6', 'h-6', 'fill-current');
+            btnPlayPause.appendChild(newIcon);
+            lucide.createIcons(); // Re-renderiza ícone
+        }
+
+        btnPlayPause.addEventListener('click', togglePlay);
+        video.addEventListener('click', togglePlay); // Clicar no vídeo também pausa
+
+        // 4. BARRA DE PROGRESSO
+        video.addEventListener('timeupdate', () => {
+            const percent = (video.currentTime / video.duration) * 100;
+            progressFill.style.width = `${percent}%`;
+            progressScrubber.style.left = `${percent}%`;
+            timeCurrent.textContent = formatTime(video.currentTime);
+        });
+
+        video.addEventListener('loadedmetadata', () => {
+            timeTotal.textContent = formatTime(video.duration);
+        });
+
+        // Click na barra para pular tempo
+        progressBar.addEventListener('click', (e) => {
+            const rect = progressBar.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            video.currentTime = pos * video.duration;
+        });
+
+        // 5. VOLUME
+        volumeSlider.addEventListener('input', (e) => {
+            video.volume = e.target.value;
+            video.muted = e.target.value == 0;
+        });
+
+        btnMute.addEventListener('click', () => {
+            video.muted = !video.muted;
+            // Atualiza slider
+            volumeSlider.value = video.muted ? 0 : 1;
+            video.volume = video.muted ? 0 : 1;
+        });
+
+        // 6. FULLSCREEN
+        btnFullscreen.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                if (container.requestFullscreen) container.requestFullscreen();
+                else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen(); // Safari
+            } else {
+                if (document.exitFullscreen) document.exitFullscreen();
+            }
+        });
+
+        // --- Custom Cursor (Mantido do anterior) ---
         const cursorRing = document.getElementById('cursor-ring');
         const cursorDot = document.getElementById('cursor-dot');
-        const hoverTriggers = document.querySelectorAll('.hover-trigger');
-
+        
         document.addEventListener('mousemove', (e) => {
             cursorDot.style.left = `${e.clientX}px`;
             cursorDot.style.top = `${e.clientY}px`;
             cursorRing.style.left = `${e.clientX}px`;
             cursorRing.style.top = `${e.clientY}px`;
             
-            // Spotlight Update
+            // Lógica Spotlight
             document.querySelectorAll('.spotlight-card').forEach(card => {
                 const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
+                card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
             });
         });
 
-        hoverTriggers.forEach(trigger => {
-            trigger.addEventListener('mouseenter', () => document.body.classList.add('hovering-link'));
-            trigger.addEventListener('mouseleave', () => document.body.classList.remove('hovering-link'));
-        });
-
-        // Reveal Animation
+        // Reveal Animation Observer
         const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -560,8 +705,8 @@
                 }
             });
         }, { threshold: 0.1 });
-
         document.querySelectorAll('.reveal-on-scroll').forEach(el => revealObserver.observe(el));
-    </script>
+    });
+</script>
 </body>
 </html>
